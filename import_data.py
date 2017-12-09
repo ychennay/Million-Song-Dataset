@@ -5,7 +5,7 @@ import glob
 
 HOSTNAME = '127.0.0.1'
 USERNAME = 'root'
-PASSWORD = 'operam'
+PASSWORD = ''
 DATABASE = 'millionsong'
 SKIPCOUNT = 561000
 BASEDIR = '/home/ec2-user/mount_point/data'
