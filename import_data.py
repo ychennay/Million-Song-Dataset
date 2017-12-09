@@ -15,6 +15,7 @@ def import_data(basedir,ext='.h5') :
     durations = []
     ids = []
     count = 0
+    duplicates = 0
 
     cursor = myConnection.cursor()
     for root, dirs, files in os.walk(basedir):
@@ -31,12 +32,19 @@ def import_data(basedir,ext='.h5') :
                # print(song_id)
             h5.close()
             
-            number_of_rows = cursor.execute("INSERT INTO  millionsong.song VALUES('{0}',{1},'{2}')".format(song_id, song_duration,song_year))
+            try:
+                number_of_rows = cursor.execute("INSERT INTO  millionsong.song VALUES('{0}',{1},'{2}')".format(song_id, song_duration,song_year))
 
-            myConnection.commit()   # you need to call commit() method to save your changes to the database
-            print(number_of_rows)
-            count = count + 1
-            if count %  1000:
+                myConnection.commit()   # you need to call commit() method to save your changes to the database
+                count = count + 1
+                
+            except mysql.connector.errors.IntegrityError:
+                print("Duplicate Song ID")
+                duplicates = duplicates + 1               
+                print(duplicates)
+                continue
+            
+            if count %  100 == 0:
                 print("On iteration {0}".format(count))
     return
 
