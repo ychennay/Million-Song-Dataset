@@ -25,7 +25,7 @@ def import_data(basedir,ext='.h5') :
                 else:
                     song_duration_dict[song_year] = song_duration
 
-                if song_year in song_count:
+                if song_year in song_count.keys():
                     song_count[song_year] += 1
                 else:
                     song_count[song_year] = 1
